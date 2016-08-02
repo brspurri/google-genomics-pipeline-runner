@@ -47,16 +47,13 @@ This is a very basic example that uses the `google-genomics-pipeline-runner` to 
 >>> credentials = GoogleCredentials.get_application_default()
 
 >>> # Build the pipeline configuration. Make sure to change the values inside the {} to the correct ones for your project
->>> p = Pipeline(credentials, '{MyGoogleProject}', 'MyPipelineName', 'ubuntu, gs://{MyOutputBucket}, gs://{MyLogsBucket})
+>>> p = Pipeline(credentials, '{MyGoogleProject}', 'MyPipelineName', 'ubuntu', 'gs://{MyOutputBucket}', 'gs://{MyLogsBucket}')
 
 >>> # Mount a 50GB disk to the VM
->>> p.add_disk('mydatadisk, '/mnt/data', size=50)
+>>> p.add_disk('mydatadisk', '/mnt/data', size=50)
 
->>> # Set an input file to be transferred to the VM
->>> input_file = 'gs://{MyPrivateOrPublicDataBucket}/path/to/MyFile.bam'
-
->>> # Add the input file to the configuration
->>> p.add_input(disk_name, input_file)
+>>> # Transfer the input file to the VM and add it to the configuration
+>>> p.add_input('mydatadisk', 'gs://{MyPrivateOrPublicDataBucket}/path/to/MyFile.bam')
 
 >>> # Execute samtools index on MyFile.bam
 >>> p.command = 'ls -lah /mnt/data/inputs/MyFile.bam > /mnt/data/outputs/test.txt'
@@ -66,6 +63,7 @@ This is a very basic example that uses the `google-genomics-pipeline-runner` to 
 
 >>> # Execute the pipeline
 >>> operation = p.run()
+>>> print operation
 ```
 
 Full Examples
