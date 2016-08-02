@@ -18,7 +18,9 @@ scalable, bioinformatics pipelines on the Google Genomics Cloud infastructure.
 
 **Installing**:
 ```
-pip install git@github.com:brspurri/google-genomics-pipeline-runner.git
+git clone git@github.com:brspurri/google-genomics-pipeline-runner.git
+cd google-genomics-pipeline-runner.git
+python setup.py install
 ```
 
 However, it *will soon be*:
