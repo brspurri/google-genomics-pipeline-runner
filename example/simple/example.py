@@ -52,7 +52,7 @@ if os.path.isfile(os.path.join(_path, 'pipeline_runner', '__init__.py')):
     sys.path.insert(0, _path)
 
 # Import the pipeline helper
-from runner.pipeline_runner import Pipeline
+from pipeline_runner import Pipeline
 
 # Set the global scope variables
 credentials = GoogleCredentials.get_application_default()
