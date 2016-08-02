@@ -21,7 +21,11 @@ scalable, bioinformatics pipelines on the Google Genomics Cloud infastructure.
 NOT YET IMPLEMENTED
 ```
 
-However, it *will be* `pip install google-genomics-pipeline-runner`
+However, it *will be*:
+
+```
+pip install google-genomics-pipeline-runner
+```
 
 -------
 
@@ -29,8 +33,8 @@ However, it *will be* `pip install google-genomics-pipeline-runner`
 
 -------
 
-Examples
---------
+Examples and Usage
+------------------
 
 There is currently one simple example located in the `examples/simple` folder of this repository.
 More will be coming, and the complexity will be increasing. For now, please read the simple example
