@@ -22,6 +22,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+import os
 import base64
 
 # Google's API client library is required to
@@ -32,6 +33,9 @@ from googleapiclient.discovery import build
 # Set the Google Genomics Version number to be used in the service building.
 # Note: This WILL change!
 GOOGLE_GENOMICS_VERSION = 'v1alpha2'
+
+# Google Storage version
+GOOGLE_STORAGE_VERSION = 'v1'
 
 
 class Pipeline:
@@ -50,6 +54,7 @@ class Pipeline:
                  storage_output,
                  storage_logging,
                  memory=3.75,
+                 cores=1,
                  zones=list()):
         """
         Google Genomics Pipeline API wrapper/helper to make the generation
@@ -63,6 +68,7 @@ class Pipeline:
         :param storage_output: Path to the Google Storage bucket to transfer the output files to.
         :param storage_logging: Path to the Google Storage bucket to transfer the log files to.
         :param memory: Memory in GBs. [Default: 3.75].
+        :param cores: Number of processors. [Default: 1].
         :param zones: List of available Google Compute zones.
         """
 
@@ -81,11 +87,11 @@ class Pipeline:
         self.name = name
 
         # Path to the Google Storge bucket in which the output files
-        #   are transfered to upon pipeline completion.
+        #   are transferred to upon pipeline completion.
         self.storage_output = storage_output
 
         # Path to the Google Storge bucket in which the log files
-        #   are transfered to upon pipeline completion.
+        #   are transferred to upon pipeline completion.
         self.storage_logging = storage_logging
 
         # Docker image endpoint.
@@ -94,11 +100,11 @@ class Pipeline:
         self.docker_image = docker_image
 
         # Relative path of the input folder. All files specified in
-        #   add_input() will be transfered to this folder.
+        #   add_input() will be transferred to this folder.
         self.mounted_input_folder = 'input'
 
         # Relative path of the output folder. All files present in this folder
-        #   at the end of execution will be transfered to the Google Storage bucket
+        #   at the end of execution will be transferred to the Google Storage bucket
         #   specified in self.storage_output
         self.mounted_output_folder = 'output'
 
@@ -109,18 +115,22 @@ class Pipeline:
         #   Default is 3.75 GB, but you may set this to any integer (be reasonable though!)
         self.memory = memory
 
+        # (Optional) Override for the number of processors run the VM on.
+        #   Default is 1, but you may set this to any integer (be reasonable though!)
+        self.cores = cores
+
         # (Optional) Set the Google Compute zones.
         #   By default, Google Compute Engine chooses the zone(s) for you.
         #   More information can be found here:
         #   https://cloud.google.com/compute/docs/regions-zones/regions-zones
         self.zones = zones
 
-        # (Internal) _disks: Disks to be mouted to the VM.
+        # (Internal) _disks: Disks to be mounted to the VM.
         self._disks = []            # ephemeralPipeline
         self._disk_resources = []   # pipelineArgs
 
         # (Internal) _inputs: Input parameters (keys) and their
-        #   Google Storage paths (keys) to be transfered to the VM.
+        #   Google Storage paths (keys) to be transferred to the VM.
         #   Structure looks like:
         #      {
         #         filename_1: google_storage_path_1,
@@ -136,6 +146,12 @@ class Pipeline:
         # (Internal) _pipeline: class variable for the pipeline config.
         #   Build by calling the build() command
         self._pipeline = {}
+
+        # Create the storage service
+        self.storage = build('storage', GOOGLE_STORAGE_VERSION, credentials=credentials)
+
+        # Create the genomics service
+        self.genomics = build('genomics', GOOGLE_GENOMICS_VERSION, credentials=self.credentials)
 
     def set_command(self, command, base64encoded=False):
         """
@@ -194,13 +210,13 @@ class Pipeline:
         to the VM mounted input folder.
 
         :param disk_name: Name of the disk mounted to the VM. See add_disk().
-        :param gs_input: Google Storage path for the file to be transfered to the VM.
+        :param gs_input: Google Storage path for the file to be transferred to the VM.
         """
         f = {
             'name': 'inputFile{}'.format(len(self._inputs.values())),
             'description': 'Input file for: {}'.format(self.name),
             'localCopy': {
-                'path': self.mounted_input_folder + '/',
+                'path': self.mounted_input_folder + '/' + os.path.basename(gs_input),
                 'disk': disk_name
             }
         }
@@ -261,6 +277,9 @@ class Pipeline:
                     # Set the memory
                     'minimumRamGb': self.memory,
 
+                    # Set the minimum number of cored
+                    'minimumCpuCores': self.cores,
+
                     # For the data disk, specify the size
                     'disks': self._disk_resources
                 },
@@ -297,8 +316,5 @@ class Pipeline:
 
     def run(self):
 
-        # Create the genomics service
-        service = build('genomics', GOOGLE_GENOMICS_VERSION, credentials=self.credentials)
-
         # Run the pipeline
-        return service.pipelines().run(body=self._pipeline).execute()
+        return self.genomics.pipelines().run(body=self._pipeline).execute()
