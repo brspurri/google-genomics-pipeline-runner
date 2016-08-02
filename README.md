@@ -7,8 +7,9 @@ to submit issues (or better yet, pull requests)
 
 --------
 
-**Overview**: This project is a helper for generating simple, Google Genomics Pipeline configurations as python objects.
-Information about the Pipeline API may be found at: https://cloud.google.com/genomics/reference/rest/v1alpha2/pipelines
+**Overview**: This project is a helper for generating simple and easy to use, Google Genomics Pipeline
+configurations as python objects. Information about the Pipeline API may be found at:
+https://cloud.google.com/genomics/reference/rest/v1alpha2/pipelines
 
 `google-genomics-pipeline-runner` is designed to very simple to configure, and very quick to deploy workable,
 scalable, bioinformatics pipelines on the Google Genomics Cloud infastructure.
