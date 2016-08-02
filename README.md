@@ -18,10 +18,10 @@ scalable, bioinformatics pipelines on the Google Genomics Cloud infastructure.
 
 **Installing**:
 ```
-NOT YET IMPLEMENTED
+pip install git@github.com:brspurri/google-genomics-pipeline-runner.git
 ```
 
-However, it *will be*:
+However, it *will soon be*:
 
 ```
 pip install google-genomics-pipeline-runner
@@ -36,7 +36,7 @@ pip install google-genomics-pipeline-runner
 Basic Usage
 -----------
 
-This very basic example that uses the Google Genomics Pipeline API to pull an ubuntu image, transfers `/mnt/data/inputs/MyFile.bam` to the VM, runs `ls -lah /mnt/data/inputs/MyFile.bam > /mnt/data/outputs/test.txt` and finally transfers `/mnt/data/outputs/test.txt` back to the Google Storage bucket `gs://{MyLogsBucket}`.
+This is a very basic example that uses the `google-genomics-pipeline-runner` to execute a pipeline via Google Genomics Pipeline API. This tiny example starts a Google Compute VM, pulls and runs an ubuntu docker image image, transfers `/mnt/data/inputs/MyFile.bam` from Google Storage to the running VM, executes `ls -lah /mnt/data/inputs/MyFile.bam > /mnt/data/outputs/test.txt` and finally transfers `/mnt/data/outputs/test.txt` back to the Google Storage bucket `gs://{MyLogsBucket}`. The VM is destroyed and all disks are unmounted by Google's infrastructure automatically.
 
 ```
 >>> # Imports
