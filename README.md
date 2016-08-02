@@ -1,8 +1,6 @@
 google-genomics-pipeline-runner
 ===============================
 
---------
-
 **Disclaimer**: Google Genomics Pipeline API is in **alpha** development and will certainly break with
 coming versions. I will do my best to maintain current compatibility, but do feel free
 to submit issues (or better yet, pull requests)
