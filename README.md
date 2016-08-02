@@ -17,7 +17,12 @@ scalable, bioinformatics pipelines on the Google Genomics Cloud infastructure.
 
 -------
 
-**Installing**: NOT YET IMPLEMENTED, but it *will be* `pip install google-genomics-pipeline-runner`
+**Installing**:
+```
+NOT YET IMPLEMENTED
+```
+
+However, it *will be* `pip install google-genomics-pipeline-runner`
 
 -------
 
