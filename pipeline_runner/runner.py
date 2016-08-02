@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 #
 # The MIT License (MIT)
 # Copyright (c) 2016 Brett Spurrier

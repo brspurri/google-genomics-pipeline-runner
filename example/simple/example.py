@@ -105,7 +105,7 @@ def build_simple_example_pipeline():
                         'done')
     pipeline.command = 'ls -la {mount_point}/input'.format(mount_point=mount_point)
 
-    # Build the configutation
+    # Build the configuration
     config = pipeline.build()
 
     # Output the config to STDOUT
