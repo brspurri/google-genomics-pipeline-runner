@@ -80,8 +80,11 @@ Full Examples
 -------------
 
 There is currently one simple example located in the `examples/simple` folder of this repository.
-More will be coming, and the complexity will be increasing. For now, please read the simple example
- as a way to setup a `pipeline_runner.Pipeline()` object run a single task through the Google Genomics Pipeline API.
+More will be coming, and the complexity will be increasing. For now, please read the simple example 
+as a way to setup a `pipeline_runner.Pipeline()` object run a single task through the Google Genomics Pipeline API.
+
+More detailed examples are being migrated to a new GitHub repo called `google-genomics-pipeline-runner-examples`:
+https://github.com/brspurri/google-genomics-pipeline-runner-examples
 
 Final Thoughts
 --------------
